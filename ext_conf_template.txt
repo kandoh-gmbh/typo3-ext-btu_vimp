@@ -1,0 +1,4 @@
+# cat=Settings/O; type=string; label= ViMP base url
+baseUrl =
+
+
