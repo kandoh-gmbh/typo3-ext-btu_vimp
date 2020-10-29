@@ -16,11 +16,4 @@ defined('TYPO3_MODE') || die();
         'video/vimp',
         'mimetypes-media-video-vimp'
     );
-
-    if (isset($extConf['baseUrl']) && !empty($extConf['baseUrl'])) {
-        $GLOBALS['TYPO3_CONF_VARS']['SYS']['fal']['onlineMediaHelpers']['vimp'] = \BTU\BtuVimp\Helpers\VimpHelper::class;
-        $GLOBALS['TYPO3_CONF_VARS']['SYS']['FileInfo']['fileExtensionToMimeType']['vimp'] = 'video/vimp';
-
-        $GLOBALS['TYPO3_CONF_VARS']['SYS']['mediafile_ext'] .= ',vimp';
-    }
 })();

@@ -7,5 +7,10 @@ defined('TYPO3_MODE') || die();
     if (isset($extConf['baseUrl']) && !empty($extConf['baseUrl'])) {
         $rendererRegistry = \TYPO3\CMS\Core\Resource\Rendering\RendererRegistry::getInstance();
         $rendererRegistry->registerRendererClass(\BTU\BtuVimp\Rendering\VimpRenderer::class);
+        unset($rendererRegistry);
+
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['mediafile_ext'] .= ',vimp';
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['FileInfo']['fileExtensionToMimeType']['vimp'] = 'video/vimp';
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['fal']['onlineMediaHelpers']['vimp'] = \BTU\BtuVimp\Helpers\VimpHelper::class;
     }
 })();
