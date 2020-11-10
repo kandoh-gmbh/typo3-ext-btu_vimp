@@ -14,6 +14,7 @@ namespace BTU\BtuVimp\Rendering;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Core\Resource\FileReference;
@@ -148,11 +149,7 @@ class VimpRenderer implements FileRendererInterface
         $urlParams[] = 'responsive=false';
         $urlParams[] = 't=0';
 
-        $objectManager = GeneralUtility::makeInstance(ObjectManager::class);
-        /** @var \TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility $configurationUtility */
-        $configurationUtility = $objectManager->get(\TYPO3\CMS\Extensionmanager\Utility\ConfigurationUtility::class);
-        $extensionConfiguration = $configurationUtility->getCurrentConfiguration('btu_vimp');
-        $baseUrl = $extensionConfiguration['baseUrl']['value'];
+        $baseUrl = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('btu_vimp', 'baseUrl');
 
         return sprintf($baseUrl . 'media/embed?key=%s&%s', $videoId, implode('&', $urlParams));
     }
