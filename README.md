@@ -7,6 +7,6 @@
 ## 2 Usage
 
 1) Install extension via Extension Manager
-2) Add _baseUrl_ of you ViMP service 
+2) Add _baseUrl_ of your ViMP service 
 
 [1]: https://.www.vimp.com/
