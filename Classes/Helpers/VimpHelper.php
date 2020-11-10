@@ -14,9 +14,11 @@ namespace BTU\BtuVimp\Helpers;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\Folder;
 use TYPO3\CMS\Core\Resource\OnlineMedia\Helpers\AbstractOnlineMediaHelper;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
 
 /**
@@ -37,11 +39,12 @@ class VimpHelper extends AbstractOnlineMediaHelper
     public function transformUrlToFile($url, Folder $targetFolder)
     {
         $mediaId = null;
-        $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf']['btu_vimp'], ['allowed_classes' => false]);
 
-        if (isset($extConf['baseUrl'])
-            && !empty($extConf['baseUrl'])
-            && StringUtility::beginsWith($url, $extConf['baseUrl'])
+        $baseUrl = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('btu_vimp', 'baseUrl');
+
+        if (isset($baseUrl)
+            && !empty($baseUrl)
+            && StringUtility::beginsWith($url, $baseUrl)
         ) {
             if (preg_match('/\/(?:video)\/([0-9a-z\-]+)\/([0-9a-z]+)/i', $url, $matches)) {
                 $mediaTitle = $matches[1];
