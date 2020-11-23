@@ -7,10 +7,10 @@ $EM_CONF[$_EXTKEY] = [
     'author' => 'Thomas Scholze',
     'author_email' => 'thomas.scholze@b-tu.de',
     'state' => 'stable',
-    'version' => '1.0.0',
+    'version' => '1.1.0',
     'constraints' => [
         'depends' => [
-          'typo3' => '8.7.13-9.5.99',
+          'typo3' => '9.5.0-9.5.99',
         ],
         'conflicts' => [],
         'suggests' => [],
