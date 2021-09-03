@@ -1,0 +1,34 @@
+{
+  "name": "btu/btu-vimp",
+  "type": "typo3-cms-extension",
+  "license": "GPL-2.0-or-later",
+  "require": {
+    "typo3/cms-core": "^9.5|^10.4"
+  },
+  "replace": {
+    "btu/btu_vimp": "self.version",
+    "typo3-ter/btu-vimp": "self.version"
+  },
+  "config": {
+    "vendor-dir": ".build/vendor",
+    "bin-dir": ".build/bin"
+  },
+  "extra": {
+    "typo3/cms": {
+      "extension-key": "btu_vimp",
+      "web-dir": ".build/Web"
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "BTU\\BtuLibrary\\": "Classes/"
+    }
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^2.18",
+    "typo3/coding-standards": "^0.2.0",
+    "saschaegerer/phpstan-typo3": "^0.13.1",
+    "phpstan/phpstan": "^0.12.79",
+    "phpstan/extension-installer": "^1.1"
+  }
+}
