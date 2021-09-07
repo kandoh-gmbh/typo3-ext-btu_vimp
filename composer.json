@@ -21,7 +21,7 @@
   },
   "autoload": {
     "psr-4": {
-      "BTU\\BtuLibrary\\": "Classes/"
+      "BTU\\BtuVimp\\": "Classes/"
     }
   },
   "require-dev": {
