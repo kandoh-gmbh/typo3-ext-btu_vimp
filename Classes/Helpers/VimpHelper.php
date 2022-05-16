@@ -27,6 +27,27 @@ use TYPO3\CMS\Core\Utility\StringUtility;
 class VimpHelper extends AbstractOnlineMediaHelper
 {
     /**
+     * Base URL for the ViMP instance
+     *
+     * @var string
+     */
+    protected $baseUrl;
+
+    /**
+     * Constructor
+     *
+     * @param string $extension file extension bind to the OnlineMedia helper
+     */
+    public function __construct($extension)
+    {
+        parent::__construct($extension);
+        if (empty($this->baseUrl)) {
+            $this->baseUrl = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('btu_vimp', 'baseUrl');
+        }
+    }
+
+
+    /**
      * Try to transform given URL to a File
      * Link examples:
      *   Permalink: https://www.b-tu.de/media/video/36434-Statistische-Methoden-des-Qualitaetsmanagements-SoSe-18-12042018-Teil-2/918ac7e719577d8f0e5545572eb0d79a
@@ -40,11 +61,9 @@ class VimpHelper extends AbstractOnlineMediaHelper
     {
         $mediaId = null;
 
-        $baseUrl = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('btu_vimp', 'baseUrl');
-
-        if (isset($baseUrl)
-            && !empty($baseUrl)
-            && StringUtility::beginsWith($url, $baseUrl)
+        if (isset($this->baseUrl)
+            && !empty($this->baseUrl)
+            && StringUtility::beginsWith($url, $this->baseUrl)
         ) {
             if (preg_match('/\/(?:video)\/([0-9a-z\-]+)\/([0-9a-z]+)/i', $url, $matches)) {
                 $mediaTitle = $matches[1];
@@ -97,8 +116,17 @@ class VimpHelper extends AbstractOnlineMediaHelper
 
     public function getPreviewImage(File $file)
     {
-        //TODO currently not possible
-        return '';
+        $videoId = $this->getOnlineMediaId($file);
+        $temporaryFileName = $this->getTempFolderPath() . 'vimp_' . md5($videoId) . '.jpg';
+        if (!file_exists($temporaryFileName)) {
+            $thumbnailUrl = $this->baseUrl . '/api/getPicture?type=medium&key=' . $videoId;
+            $previewImage = GeneralUtility::getUrl($thumbnailUrl);
+            if ($previewImage !== false) {
+                file_put_contents($temporaryFileName, $previewImage);
+                GeneralUtility::fixPermissions($temporaryFileName);
+            }
+        }
+        return $temporaryFileName;
     }
 
     public function getMetaData(File $file)
