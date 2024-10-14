@@ -1,5 +1,7 @@
 <?php
-defined('TYPO3_MODE') || die();
+declare(strict_types=1);
+
+defined('TYPO3') || die();
 
 (static function () {
     $extConf = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(

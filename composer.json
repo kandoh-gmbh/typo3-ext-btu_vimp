@@ -3,7 +3,8 @@
   "type": "typo3-cms-extension",
   "license": "GPL-2.0-or-later",
   "require": {
-    "typo3/cms-core": "^9.5|^10.4|^11.5|^12.4"
+    "php": "^8.0",
+    "typo3/cms-core": "^11.5|^12.4"
   },
   "replace": {
     "btu/btu_vimp": "self.version",
