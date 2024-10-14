@@ -21,7 +21,6 @@ use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\Folder;
 use TYPO3\CMS\Core\Resource\OnlineMedia\Helpers\AbstractOnlineMediaHelper;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\StringUtility;
 
 /**
  * Vimp helper class
@@ -65,7 +64,7 @@ class VimpHelper extends AbstractOnlineMediaHelper
 
         if (isset($this->baseUrl)
             && !empty($this->baseUrl)
-            && StringUtility::beginsWith($url, $this->baseUrl)
+            && str_starts_with($url, $this->baseUrl)
         ) {
             if (preg_match('/\/(?:video)\/([0-9a-z\-]+)\/([0-9a-z]+)/i', $url, $matches)) {
                 $mediaTitle = $matches[1];

@@ -13,7 +13,7 @@ defined('TYPO3') || die();
     $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('btu_vimp');
 
     if (isset($extConf['baseUrl']) && !empty($extConf['baseUrl'])) {
-        $rendererRegistry = RendererRegistry::getInstance();
+        $rendererRegistry = GeneralUtility::makeInstance(RendererRegistry::class);
         $rendererRegistry->registerRendererClass(VimpRenderer::class);
         unset($rendererRegistry);
 
