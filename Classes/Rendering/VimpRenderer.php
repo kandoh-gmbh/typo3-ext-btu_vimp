@@ -137,22 +137,24 @@ class VimpRenderer implements FileRendererInterface
      */
     protected function createVimpUrl(array $options, FileInterface $file)
     {
-        $videoId = $this->getVideoIdFromFile($file);
+        $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class);
 
-        $urlParams = [];
-        $urlParams[] = 'width=720';
-        $urlParams[] = 'height=405';
-        $urlParams[] = ((bool)$options['autoplay'] === true) ? 'autoplay=true' : 'autoplay=false';
-        $urlParams[] = 'autolightsoff=false';
-        $urlParams[] = 'loop=false';
-        $urlParams[] = 'chapters=false';
-        $urlParams[] = 'related=false';
-        $urlParams[] = 'responsive=false';
-        $urlParams[] = 't=0';
+        $urlParameters = $extConf->getUrlParameters();
+        $urlParameters['key'] = $this->getVideoIdFromFile($file);
+        $urlParameters['autoplay'] = ($options['autoplay'] ?? false) === true;
 
-        $baseUrl = GeneralUtility::makeInstance(ExtensionConfiguration::class)->getBaseUrl();
+        array_walk($urlParameters, static function (&$value, $key) {
+            $value = match ($value) {
+                true => 'true',
+                false => 'false',
+                default => $value,
+            };
+        });
 
-        return sprintf($baseUrl . 'media/embed?key=%s&%s', $videoId, implode('&', $urlParams));
+        $urlParameters = http_build_query($urlParameters, '', '&');
+
+        $baseUrl = $extConf->getBaseUrl();
+        return sprintf($baseUrl . 'media/embed?%s', $urlParameters);
     }
 
     /**

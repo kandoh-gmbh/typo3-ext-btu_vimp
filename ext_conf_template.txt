@@ -1,4 +1,23 @@
 # cat=Settings/O; type=string; label= ViMP base url
 baseUrl =
 
-
+urlParameters {
+    # cat=urlParameters; type=int+; label=width of embedded videos
+    width = 720
+    # cat=urlParameters; type=int+; label=height of embedded videos
+    height = 405
+    # cat=urlParameters; type=boolean; label=autolightsoff of embedded videos
+    autolightsoff = false
+    # cat=urlParameters; type=boolean; label=show controls of embedded videos
+    controls = true
+    # cat=urlParameters; type=boolean; label=loop videos
+    loop = false
+    # cat=urlParameters; type=boolean; label=show chapters of embedded videos
+    chapters = false
+    # cat=urlParameters; type=boolean; label=show playlists of embedded videos
+    playlist = false
+    # cat=urlParameters; type=boolean; label=show related videos in embedded videos
+    related = false
+    # cat=urlParameters; type=boolean; label=responsive behavior
+    responsive = true
+}

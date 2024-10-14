@@ -24,10 +24,14 @@ use TYPO3\CMS\Core\SingletonInterface;
 
 /**
  * ExtensionConfiguration class
+ *
+ * @phpstan-type UrlParameters array<string,string|int|bool>
  */
 class ExtensionConfiguration implements SingletonInterface
 {
     protected string $baseUrl;
+    /** @var UrlParameters */
+    protected array $urlParameters;
 
     /**
      * @throws ExtensionConfigurationExtensionNotConfiguredException
@@ -42,10 +46,24 @@ class ExtensionConfiguration implements SingletonInterface
             throw new InvalidConfigurationException('Configuration "baseUrl" must be a string', 1728910000);
         }
         $this->baseUrl = $baseUrl;
+
+        $urlParameters = $extConf->get('btu_vimp', 'urlParameters');
+        if (! is_array($urlParameters)) {
+            throw new InvalidConfigurationException('Configuration "urlParameters" must be an array', 1728910010);
+        }
+        $this->urlParameters = $urlParameters;
     }
 
     public function getBaseUrl(): string
     {
         return $this->baseUrl;
+    }
+
+    /**
+     * @return UrlParameters
+     */
+    public function getUrlParameters(): array
+    {
+        return $this->urlParameters;
     }
 }
