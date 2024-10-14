@@ -1,20 +1,24 @@
 <?php
 declare(strict_types=1);
 
+use BTU\BtuVimp\Helpers\VimpHelper;
+use BTU\BtuVimp\Rendering\VimpRenderer;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use TYPO3\CMS\Core\Resource\Rendering\RendererRegistry;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 defined('TYPO3') || die();
 
 (static function () {
-    $extConf = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-        \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
-    )->get('btu_vimp');
+    $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('btu_vimp');
 
     if (isset($extConf['baseUrl']) && !empty($extConf['baseUrl'])) {
-        $rendererRegistry = \TYPO3\CMS\Core\Resource\Rendering\RendererRegistry::getInstance();
-        $rendererRegistry->registerRendererClass(\BTU\BtuVimp\Rendering\VimpRenderer::class);
+        $rendererRegistry = RendererRegistry::getInstance();
+        $rendererRegistry->registerRendererClass(VimpRenderer::class);
         unset($rendererRegistry);
 
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['mediafile_ext'] .= ',vimp';
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['FileInfo']['fileExtensionToMimeType']['vimp'] = 'video/vimp';
-        $GLOBALS['TYPO3_CONF_VARS']['SYS']['fal']['onlineMediaHelpers']['vimp'] = \BTU\BtuVimp\Helpers\VimpHelper::class;
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['fal']['onlineMediaHelpers']['vimp'] = VimpHelper::class;
     }
 })();
