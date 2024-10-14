@@ -215,7 +215,7 @@ class VimpRenderer implements FileRendererInterface
             if ($value === true) {
                 $attributeList[] = $name;
             } else {
-                $attributeList[] = $name . '="' . htmlspecialchars($value, ENT_QUOTES | ENT_HTML5) . '"';
+                $attributeList[] = $name . '="' . htmlspecialchars((string)$value, ENT_QUOTES | ENT_HTML5) . '"';
             }
         }
         return implode(' ', $attributeList);
