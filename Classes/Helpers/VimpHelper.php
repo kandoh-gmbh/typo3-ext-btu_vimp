@@ -16,7 +16,7 @@ namespace BTU\BtuVimp\Helpers;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use BTU\BtuVimp\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\Folder;
 use TYPO3\CMS\Core\Resource\OnlineMedia\Helpers\AbstractOnlineMediaHelper;
@@ -27,12 +27,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class VimpHelper extends AbstractOnlineMediaHelper
 {
-    /**
-     * Base URL for the ViMP instance
-     *
-     * @var string
-     */
-    protected $baseUrl;
+    protected ExtensionConfiguration $extConf;
 
     /**
      * Constructor
@@ -42,9 +37,8 @@ class VimpHelper extends AbstractOnlineMediaHelper
     public function __construct($extension)
     {
         parent::__construct($extension);
-        if (empty($this->baseUrl)) {
-            $this->baseUrl = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('btu_vimp', 'baseUrl');
-        }
+
+        $this->extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class);
     }
 
 
@@ -62,10 +56,7 @@ class VimpHelper extends AbstractOnlineMediaHelper
     {
         $mediaId = null;
 
-        if (isset($this->baseUrl)
-            && !empty($this->baseUrl)
-            && str_starts_with($url, $this->baseUrl)
-        ) {
+        if (str_starts_with($url, $this->extConf->getBaseUrl())) {
             if (preg_match('/\/(?:video)\/([0-9a-z\-]+)\/([0-9a-z]+)/i', $url, $matches)) {
                 $mediaTitle = $matches[1];
                 $mediaId = $matches[2];
@@ -119,8 +110,8 @@ class VimpHelper extends AbstractOnlineMediaHelper
     {
         $videoId = $this->getOnlineMediaId($file);
         $temporaryFileName = $this->getTempFolderPath() . 'vimp_' . md5($videoId) . '.jpg';
-        if (!file_exists($temporaryFileName)) {
-            $thumbnailUrl = $this->baseUrl . '/api/getPicture?type=medium&key=' . $videoId;
+        if (! file_exists($temporaryFileName)) {
+            $thumbnailUrl = $this->extConf->getBaseUrl() . '/api/getPicture?type=medium&key=' . $videoId;
             $previewImage = GeneralUtility::getUrl($thumbnailUrl);
             if ($previewImage !== false) {
                 file_put_contents($temporaryFileName, $previewImage);
